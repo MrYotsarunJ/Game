@@ -13,21 +13,10 @@ const menuItems = [
     key: '1',
     label: <Link href="/">Home</Link>,
   },
+ 
   {
     key: '2',
-    label: <Link href="/about">About</Link>,
-  },
-  {
-    key: '3',
-    label: <Link href="/contact">Contact</Link>,
-  },
-  {
-    key: '4',
-    label: <Link href="/dataList">List</Link>,
-  },
-  {
-    key: '5',
-    label: <Link href="/game">MMORPG</Link>,
+    label: <Link href="/game">Mini game</Link>,
   },
 ];
 
