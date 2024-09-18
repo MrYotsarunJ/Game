@@ -1,0 +1,125 @@
+/* globals.css */
+.logo {
+  width: 120px;
+  height: 31px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px 24px 16px 0;
+  float: left;
+}
+
+.site-layout-content {
+  min-height: 280px;
+  background: #fff;
+  padding: 24px;
+  margin-top: 16px;
+}
+@media (max-width: 768px) {
+  .logo {
+    display: none; /* Hide the logo on smaller screens */
+  }
+  .ant-menu-horizontal {
+    text-align: center;
+  }
+}
+/* Base main-container styling */
+.main-container {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.bordered {
+  border: 1px solid #dee2e6; /* Bootstrap's default border color */
+  border-radius: 0.25rem; /* Bootstrap's border radius */
+  background-color: #fff; /* Optional: white background for better contrast */
+}
+
+/* Responsive breakpoints */
+@media (min-width: 576px) {
+  .main-container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .main-container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .main-container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .main-container {
+    max-width: 1140px;
+  }
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* Gallery container styling */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px; /* Space between images */
+}
+
+/* Individual gallery item styling */
+.gallery-item {
+  width: 150px; /* Fixed width for images */
+  height: 150px; /* Fixed height for images */
+  object-fit: cover; /* Maintain aspect ratio */
+  border: 1px solid #ddd; /* Border around images */
+  border-radius: 0.25rem; /* Rounded corners for images */
+}
+
+/* Container styling */
+.container {
+  text-align: center; /* Center content */
+  padding: 20px;
+}
+
+/* Card styling */
+.ant-card {
+  border-radius: 0.25rem; /* Rounded corners for cards */
+}
+
+/* Button styling */
+.ant-btn {
+  border-radius: 0.25rem; /* Rounded corners for buttons */
+}
+
+/* Table styling */
+.ant-table {
+  border-radius: 0.25rem; /* Rounded corners for the table */
+}
+
+/* Button styling */
+.ant-btn {
+  border-radius: 0.25rem; /* Rounded corners for buttons */
+}
+
+/* Form styling */
+.ant-form-item {
+  margin-bottom: 16px; /* Space between form items */
+}
+
+.ant-form-item-label {
+  text-align: left; /* Align labels to the left */
+}
