@@ -11,6 +11,8 @@ const ItemShop = ({
   armor,
   inventory,
   setInventoryData,
+  potion,
+  setPotionData,
 }) => {
   const weaponTypes = [...new Set(weapon.map((item) => item.type))];
   const [selectedWeaponType, setSelectedWeaponType] = useState(
@@ -28,11 +30,6 @@ const ItemShop = ({
   const [selectedAccessoriesType, setSelectedAccessoriesType] = useState(
     accessoriesTypes[0] || ""
   );
-
-  const itemsForSale = [
-    { name: "HP Potion", price: 10, type: "hpPotion" },
-    { name: "MP Potion", price: 15, type: "mpPotion" },
-  ];
 
   const buyItem = (item) => {
     if (inventory.gold >= item.price) {
@@ -55,8 +52,7 @@ const ItemShop = ({
             ];
           }
         } else {
-          // Handle non-equipment items like potions
-          updatedInventory[item.type] = (updatedInventory[item.type] || 0) + 1;
+          return;
         }
 
         return {
@@ -78,10 +74,130 @@ const ItemShop = ({
     }
   };
 
+  const buyPotion = (select_potion) => {
+    if (inventory.gold >= select_potion.price) {
+      // Find the selected potion in the potion array
+
+      const selectedPotion = potion.map((item) =>
+        item.id === select_potion.id
+          ? {
+              ...item,
+              have: item.have + 1,
+            }
+          : item
+      );
+
+      setPotionData(selectedPotion);
+
+      // Deduct gold from inventory
+      setInventoryData((prevInventory) => ({
+        ...prevInventory,
+        gold: prevInventory.gold - select_potion.price,
+      }));
+
+      notification.success({
+        message: "Purchase Successful",
+        description: `You bought 1 ${select_potion.name}.`,
+      });
+    } else {
+      notification.error({
+        message: "Insufficient Gold",
+        description: "You do not have enough gold to buy this item.",
+      });
+    }
+  };
+
   // Filter function to check if an item is already owned
   const isItemOwned = (item, type) => {
     return inventory.inventory[type].includes(item.id);
   };
+
+  const tabsPotion = [
+    {
+      key: "hpPotion",
+      label: "HpPotion",
+      children: (
+        <>
+          <List
+            dataSource={potion
+              .sort((a, b) => a.price - b.price)
+              .filter((item) => item.type == "hpPotion")}
+            pagination={{ pageSize: 3 }}
+            renderItem={(item) => (
+              <List.Item
+                actions={[
+                  <Button type="primary" onClick={() => buyPotion(item)}>
+                    Buy for {item.price} Gold
+                  </Button>,
+                ]}
+              >
+                <List.Item.Meta
+                  title={item.name}
+                  description={`Hp: ${item.hp},Mp: ${item.mp}, Have: ${item.have}`}
+                />
+              </List.Item>
+            )}
+          />
+        </>
+      ),
+    },
+    {
+      key: "mpPotion",
+      label: "MpPotion",
+      children: (
+        <>
+          <List
+            dataSource={potion
+              .sort((a, b) => a.price - b.price)
+              .filter((item) => item.type == "mpPotion")}
+            pagination={{ pageSize: 3 }}
+            renderItem={(item) => (
+              <List.Item
+                actions={[
+                  <Button type="primary" onClick={() => buyPotion(item)}>
+                    Buy for {item.price} Gold
+                  </Button>,
+                ]}
+              >
+                <List.Item.Meta
+                  title={item.name}
+                  description={`Hp: ${item.hp},Mp: ${item.mp}, Have: ${item.have}`}
+                />
+              </List.Item>
+            )}
+          />
+        </>
+      ),
+    },
+    {
+      key: "mixPotion",
+      label: "MixPotion",
+      children: (
+        <>
+          <List
+            dataSource={potion
+              .sort((a, b) => a.price - b.price)
+              .filter((item) => item.type == "mixPotion")}
+            pagination={{ pageSize: 3 }}
+            renderItem={(item) => (
+              <List.Item
+                actions={[
+                  <Button type="primary" onClick={() => buyPotion(item)}>
+                    Buy for {item.price} Gold
+                  </Button>,
+                ]}
+              >
+                <List.Item.Meta
+                  title={item.name}
+                  description={`Hp: ${item.hp},Mp: ${item.mp}, Have: ${item.have}`}
+                />
+              </List.Item>
+            )}
+          />
+        </>
+      ),
+    },
+  ];
 
   const tabs = [
     {
@@ -91,7 +207,7 @@ const ItemShop = ({
         <>
           <Select
             defaultValue={selectedWeaponType}
-            style={{ width: '100%', marginBottom: 16 }}
+            style={{ width: "100%", marginBottom: 16 }}
             onChange={(value) => setSelectedWeaponType(value)}
           >
             {weaponTypes.map((type) => (
@@ -102,7 +218,12 @@ const ItemShop = ({
           </Select>
           <List
             dataSource={weapon
-              .filter((item) => !isItemOwned(item, "weapon") && (selectedWeaponType === '' || item.type === selectedWeaponType))
+              .filter(
+                (item) =>
+                  !isItemOwned(item, "weapon") &&
+                  (selectedWeaponType === "" ||
+                    item.type === selectedWeaponType)
+              )
               .sort((a, b) => a.price - b.price)}
             pagination={{ pageSize: 10 }}
             renderItem={(item) => (
@@ -131,7 +252,7 @@ const ItemShop = ({
         <>
           <Select
             defaultValue={selectedArmorType}
-            style={{ width: '100%', marginBottom: 16 }}
+            style={{ width: "100%", marginBottom: 16 }}
             onChange={(value) => setSelectedArmorType(value)}
           >
             {armorTypes.map((type) => (
@@ -142,7 +263,11 @@ const ItemShop = ({
           </Select>
           <List
             dataSource={armor
-              .filter((item) => !isItemOwned(item, "armor") && (selectedArmorType === '' || item.type === selectedArmorType))
+              .filter(
+                (item) =>
+                  !isItemOwned(item, "armor") &&
+                  (selectedArmorType === "" || item.type === selectedArmorType)
+              )
               .sort((a, b) => a.price - b.price)}
             pagination={{ pageSize: 10 }}
             renderItem={(item) => (
@@ -171,7 +296,7 @@ const ItemShop = ({
         <>
           <Select
             defaultValue={selectedAccessoriesType}
-            style={{ width: '100%', marginBottom: 16 }}
+            style={{ width: "100%", marginBottom: 16 }}
             onChange={(value) => setSelectedAccessoriesType(value)}
           >
             {accessoriesTypes.map((type) => (
@@ -182,7 +307,12 @@ const ItemShop = ({
           </Select>
           <List
             dataSource={accessories
-              .filter((item) => !isItemOwned(item, "accessories") && (selectedAccessoriesType === '' || item.type === selectedAccessoriesType))
+              .filter(
+                (item) =>
+                  !isItemOwned(item, "accessories") &&
+                  (selectedAccessoriesType === "" ||
+                    item.type === selectedAccessoriesType)
+              )
               .sort((a, b) => a.price - b.price)}
             pagination={{ pageSize: 10 }}
             renderItem={(item) => (
@@ -195,7 +325,11 @@ const ItemShop = ({
               >
                 <List.Item.Meta
                   title={item.name}
-                  description={`Crit Rate: ${(item.critRate * 100).toFixed(1)}%, Crit Damage: ${(item.critDamage * 100).toFixed(1)}%, MP: ${item.mp}`}
+                  description={`Crit Rate: ${(item.critRate * 100).toFixed(
+                    1
+                  )}%, Crit Damage: ${(item.critDamage * 100).toFixed(
+                    1
+                  )}%, MP: ${item.mp}`}
                 />
               </List.Item>
             )}
@@ -207,29 +341,9 @@ const ItemShop = ({
     {
       key: "potion",
       label: "Potion",
-      children: (
-        <List
-          dataSource={itemsForSale.sort((a, b) => a.price - b.price)}
-          pagination={{ pageSize: 10 }}
-          renderItem={(item) => (
-            <List.Item
-              actions={[
-                <Button type="primary" onClick={() => buyItem(item)}>
-                  Buy for {item.price} Gold
-                </Button>,
-              ]}
-            >
-              <List.Item.Meta
-                title={item.name}
-                description={`Got: ${inventory.inventory[item.type]}`}
-              />
-            </List.Item>
-          )}
-        />
-      ),
+      children: <Tabs items={tabsPotion} />,
     },
   ];
-
 
   return (
     <div>

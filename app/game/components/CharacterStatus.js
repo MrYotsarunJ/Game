@@ -8,7 +8,9 @@ import {
   Select,
   Row,
   Col,
+  List,
   Table,
+  Tabs,
 } from "antd";
 import { useState, useEffect } from "react";
 import { PlusOutlined, DownOutlined } from "@ant-design/icons"; // Import Ant Design icons
@@ -37,6 +39,8 @@ const CharacterStatus = ({
   upgradeStats_armor,
   upgradeStats_accessorie,
   upgradeStats,
+  potion,
+  setPotionData,
 }) => {
   // Compute the final character stats based on baseCharacter, status upgrades, and equipment
   const computeCharacterStats = () => {
@@ -55,10 +59,7 @@ const CharacterStatus = ({
       atk: baseCharacter.atk + statusUpgrade.atk,
       def: baseCharacter.def + statusUpgrade.def,
       critRate: Math.min(baseCharacter.critRate + statusUpgrade.critRate, 1),
-      critDamage: Math.min(
-        baseCharacter.critDamage + statusUpgrade.critDamage,
-        2
-      ),
+      critDamage: baseCharacter.critDamage + statusUpgrade.critDamage,
       mp: baseCharacter.mp + statusUpgrade.mp,
     };
 
@@ -73,17 +74,86 @@ const CharacterStatus = ({
       hp: baseStats.hp + (armorStats.hp || 0),
       atk: baseStats.atk + (weaponStats.atk || 0),
       def: baseStats.def + (armorStats.def || 0),
-      critRate: Math.min(
-        baseStats.critRate + (accessoryStats.critRate || 0),
-        1
-      ),
-      critDamage: Math.min(
-        baseStats.critDamage + (accessoryStats.critDamage || 0),
-        2
-      ),
+      critRate:
+        baseStats.critRate +
+        (accessoryStats.critRate || 0) +
+        (weaponStats.critRate || 0),
+      critDamage:
+        baseStats.critDamage +
+        (accessoryStats.critDamage || 0) +
+        (weaponStats.critDamage || 0),
       mp: baseStats.mp + (weaponStats.mp || 0) + (accessoryStats.mp || 0), // Added MP here
     };
   };
+
+  const tabsPotion = [
+    {
+      key: "hpPotion",
+      label: "HpPotion",
+      children: (
+        <>
+          <List
+            dataSource={potion
+              .sort((a, b) => a.price - b.price)
+              .filter((item) => item.type == "hpPotion" && item.have > 0)}
+            pagination={{ pageSize: 3 }}
+            renderItem={(item) => (
+              <List.Item>
+                <List.Item.Meta
+                  title={item.name}
+                  description={`Hp: ${item.hp},Mp: ${item.mp}, Have: ${item.have}`}
+                />
+              </List.Item>
+            )}
+          />
+        </>
+      ),
+    },
+    {
+      key: "mpPotion",
+      label: "MpPotion",
+      children: (
+        <>
+          <List
+            dataSource={potion
+              .sort((a, b) => a.price - b.price)
+              .filter((item) => item.type == "mpPotion" && item.have > 0)}
+            pagination={{ pageSize: 3 }}
+            renderItem={(item) => (
+              <List.Item>
+                <List.Item.Meta
+                  title={item.name}
+                  description={`Hp: ${item.hp},Mp: ${item.mp}, Have: ${item.have}`}
+                />
+              </List.Item>
+            )}
+          />
+        </>
+      ),
+    },
+    {
+      key: "mixPotion",
+      label: "MixPotion",
+      children: (
+        <>
+          <List
+            dataSource={potion
+              .sort((a, b) => a.price - b.price)
+              .filter((item) => item.type == "mixPotion" && item.have > 0)}
+            pagination={{ pageSize: 3 }}
+            renderItem={(item) => (
+              <List.Item>
+                <List.Item.Meta
+                  title={item.name}
+                  description={`Hp: ${item.hp},Mp: ${item.mp}, Have: ${item.have}`}
+                />
+              </List.Item>
+            )}
+          />
+        </>
+      ),
+    },
+  ];
 
   // Update character state whenever baseCharacter, status upgrades, or equipment change
   useEffect(() => {
@@ -92,10 +162,17 @@ const CharacterStatus = ({
       ...prev,
       ...updatedStats,
     }));
-  }, [baseCharacter, characterStatusUpgrade, equipment]);
+  }, [
+    baseCharacter,
+    characterStatusUpgrade,
+    equipment,
+    weapon,
+    armor,
+    accessories,
+  ]);
 
-// Function to upgrade weapon data by ID
-const upgradeWeapon = () => {
+  // Function to upgrade weapon data by ID
+  const upgradeWeapon = () => {
     const weaponId = equipment.use_weapon;
     const selectedWeapon = weapon.find((item) => item.id === weaponId);
 
@@ -106,12 +183,24 @@ const upgradeWeapon = () => {
       return;
     }
 
+    if (selectedWeapon.upgrade_level == 10) {
+      notification.error({
+        message: "Weapon Level Maximum",
+        description: `You Weapon is Level ${selectedWeapon.upgrade_level} Can't upgrade.`,
+      });
+      return;
+    }
+
     const { type } = selectedWeapon;
-    const { atk, mp, price } = upgradeStats_weapon[type] || {
-      atk: 0,
-      mp: 0,
-      price: 0,
-    };
+    const { atk, mp, critRate, critDamage, price, upgrade_level } =
+      upgradeStats_weapon[type] || {
+        atk: 0,
+        mp: 0,
+        critDamage: 0,
+        critRate: 0,
+        price: 0,
+        upgrade_level: 0,
+      };
 
     if (inventory.gold < price) {
       notification.error({
@@ -127,6 +216,9 @@ const upgradeWeapon = () => {
             ...item,
             atk: item.atk + atk,
             mp: item.mp + mp,
+            critRate: item.critRate + critRate,
+            critDamage: item.critDamage + critDamage,
+            upgrade_level: item.upgrade_level + 1,
           }
         : item
     );
@@ -142,10 +234,10 @@ const upgradeWeapon = () => {
       message: "Weapon Upgraded",
       description: `Your ${selectedWeapon.name} has been upgraded successfully!`,
     });
-};
+  };
 
-// Function to upgrade armor data by ID
-const upgradeArmor = () => {
+  // Function to upgrade armor data by ID
+  const upgradeArmor = () => {
     const armorId = equipment.use_armor;
     const selectedArmor = armor.find((item) => item.id === armorId);
 
@@ -157,7 +249,12 @@ const upgradeArmor = () => {
     }
 
     const { type } = selectedArmor;
-    const upgrade = upgradeStats_armor[type] || { def: 0, hp: 0, price: 0 };
+    const upgrade = upgradeStats_armor[type] || {
+      def: 0,
+      hp: 0,
+      price: 0,
+      upgrade_level: 0,
+    };
 
     if (inventory.gold < upgrade.price) {
       notification.error({
@@ -167,9 +264,22 @@ const upgradeArmor = () => {
       return;
     }
 
+    if (selectedArmor.upgrade_level == 10) {
+      notification.error({
+        message: "Armor Level Maximum",
+        description: `You armor is Level ${selectedArmor.upgrade_level} Can't upgrade.`,
+      });
+      return;
+    }
+
     const upgradedArmor = armor.map((item) =>
       item.id === armorId
-        ? { ...item, def: item.def + upgrade.def, hp: item.hp + upgrade.hp }
+        ? {
+            ...item,
+            def: item.def + upgrade.def,
+            hp: item.hp + upgrade.hp,
+            upgrade_level: item.upgrade_level + 1,
+          }
         : item
     );
 
@@ -183,10 +293,10 @@ const upgradeArmor = () => {
       message: "Armor Upgraded",
       description: `Your ${selectedArmor.name} has been upgraded successfully!`,
     });
-};
+  };
 
-// Function to upgrade accessory data by ID
-const upgradeAccessory = () => {
+  // Function to upgrade accessory data by ID
+  const upgradeAccessory = () => {
     const accessoryId = equipment.use_accessories;
     const selectedAccessory = accessories.find(
       (item) => item.id === accessoryId
@@ -199,11 +309,20 @@ const upgradeAccessory = () => {
       return;
     }
 
+    if (selectedAccessory.upgrade_level == 10) {
+      notification.error({
+        message: "Accessory Level Maximum",
+        description: `You Accessory is Level ${selectedAccessory.upgrade_level} Can't upgrade.`,
+      });
+      return;
+    }
+
     const { type } = selectedAccessory;
     const upgrade = upgradeStats_accessorie[type] || {
       critRate: 0,
       critDamage: 0,
       mp: 0,
+      upgrade_level: 0,
       price: 0,
     };
 
@@ -222,6 +341,7 @@ const upgradeAccessory = () => {
             critRate: item.critRate + upgrade.critRate,
             critDamage: item.critDamage + upgrade.critDamage,
             mp: item.mp + upgrade.mp,
+            upgrade_level: item.upgrade_level + 1,
           }
         : item
     );
@@ -236,10 +356,10 @@ const upgradeAccessory = () => {
       message: "Accessory Upgraded",
       description: `Your ${selectedAccessory.name} has been upgraded successfully!`,
     });
-};
+  };
 
-// Function to handle generic stat upgrades
-const handleUpgrade = (stat) => {
+  // Function to handle generic stat upgrades
+  const handleUpgrade = (stat) => {
     const newValue = upgradeStats[stat];
 
     if (newValue === undefined) {
@@ -257,16 +377,6 @@ const handleUpgrade = (stat) => {
       });
       return;
     }
-
-    // Define the upgrade values based on stat type
-    const upgradeValues = {
-      hp: 10,
-      atk: 5,
-      def: 3,
-      critRate: 0.05,
-      critDamage: 0.1,
-      mp: 10,
-    };
 
     // Update character stats
     setCharacter((prev) => ({
@@ -290,16 +400,15 @@ const handleUpgrade = (stat) => {
       message: "Stat Upgraded",
       description: `Your ${stat} has been upgraded successfully!`,
     });
-};
+  };
 
-// Function to change equipment
-const handleChangeEquipment = (type, id) => {
+  // Function to change equipment
+  const handleChangeEquipment = (type, id) => {
     setEquipmentData((prev) => ({
       ...prev,
       [`use_${type}`]: id,
     }));
-};
-
+  };
 
   const stats = computeCharacterStats();
 
@@ -331,7 +440,12 @@ const handleChangeEquipment = (type, id) => {
         <Button
           icon={<PlusOutlined />} // Add icon to the button
           onClick={() => handleUpgrade(record.stat)}
-          disabled={inventory.gold < record.price} // Disable button based on price
+          disabled={
+            inventory.gold < record.price ||
+            record.stat == "critDamage" ||
+            record.stat == "critRate"
+          } // Disable button based on price
+          hidden={record.stat == "critDamage" || record.stat == "critRate"}
         >
           Upgrade {record.stat.toUpperCase()}
         </Button>
@@ -372,15 +486,15 @@ const handleChangeEquipment = (type, id) => {
       key: "5",
       stat: "critRate",
       currentValue: (stats.critRate * 100).toFixed(2) + "%",
-      price: upgradeStats.critRate.price,
-      upgrade_value: upgradeStats.critRate.value,
+      price: null,
+      upgrade_value: null,
     },
     {
       key: "6",
       stat: "critDamage",
       currentValue: (stats.critDamage * 100).toFixed(2) + "%",
-      price: upgradeStats.critDamage.price,
-      upgrade_value: upgradeStats.critDamage.value,
+      price: null,
+      upgrade_value: null,
     },
   ];
 
@@ -394,10 +508,7 @@ const handleChangeEquipment = (type, id) => {
         <Col span={12} style={{ padding: "10px" }}>
           <Title level={4}>Inventory</Title>
           <Paragraph>Gold: {inventory.gold}</Paragraph>
-          <Paragraph>HP Potions: {inventory.inventory.hpPotion}</Paragraph>{" "}
-          {/* Display HP potions */}
-          <Paragraph>MP Potions: {inventory.inventory.mpPotion}</Paragraph>{" "}
-          {/* Display MP potions */}
+          <Tabs items={tabsPotion} />
         </Col>
 
         <Col span={12} style={{ padding: "10px" }}>

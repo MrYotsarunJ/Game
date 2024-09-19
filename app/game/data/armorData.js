@@ -2,6 +2,7 @@ const armorData = [
   {
     id: 1,
     item_type: "armor",
+    upgrade_level: 0,
     name: "Leather Armor",
     type: "Light",
     hp: 50,
@@ -11,6 +12,7 @@ const armorData = [
   {
     id: 2,
     item_type: "armor",
+    upgrade_level: 0,
     name: "Iron Armor",
     type: "Medium",
     hp: 100,
@@ -19,6 +21,8 @@ const armorData = [
   },
   {
     id: 3,
+    item_type: "armor",
+    upgrade_level: 0,
     name: "Dragon Scale Armor",
     type: "Heavy",
     hp: 200,
@@ -28,6 +32,7 @@ const armorData = [
   {
     id: 4,
     item_type: "armor",
+    upgrade_level: 0,
     name: "Steel Armor",
     type: "Medium",
     hp: 80,
@@ -36,6 +41,8 @@ const armorData = [
   },
   {
     id: 5,
+    item_type: "armor",
+    upgrade_level: 0,
     name: "Chainmail Armor",
     type: "Medium",
     hp: 70,
@@ -45,6 +52,7 @@ const armorData = [
   {
     id: 6,
     item_type: "armor",
+    upgrade_level: 0,
     name: "Plate Armor",
     type: "Heavy",
     hp: 150,
@@ -54,6 +62,7 @@ const armorData = [
   {
     id: 7,
     item_type: "armor",
+    upgrade_level: 0,
     name: "Elven Armor",
     type: "Light",
     hp: 40,
@@ -63,6 +72,7 @@ const armorData = [
   {
     id: 8,
     item_type: "armor",
+    upgrade_level: 0,
     name: "Mystic Robe",
     type: "Light",
     hp: 30,
@@ -72,6 +82,7 @@ const armorData = [
   {
     id: 9,
     item_type: "armor",
+    upgrade_level: 0,
     name: "Dwarven Armor",
     type: "Heavy",
     hp: 120,
@@ -80,6 +91,8 @@ const armorData = [
   },
   {
     id: 10,
+    item_type: "armor",
+    upgrade_level: 0,
     name: "Darksteel Armor",
     type: "Heavy",
     hp: 180,
@@ -89,6 +102,7 @@ const armorData = [
   {
     id: 11,
     item_type: "armor",
+    upgrade_level: 0,
     name: "Leather Bracers",
     type: "Light",
     hp: 10,
@@ -97,6 +111,8 @@ const armorData = [
   },
   {
     id: 12,
+    item_type: "armor",
+    upgrade_level: 0,
     name: "Cloak of Shadows",
     type: "Light",
     hp: 20,
@@ -105,6 +121,8 @@ const armorData = [
   },
   {
     id: 13,
+    item_type: "armor",
+    upgrade_level: 0,
     name: "Reinforced Leather Armor",
     type: "Light",
     hp: 60,
@@ -113,6 +131,8 @@ const armorData = [
   },
   {
     id: 14,
+    item_type: "armor",
+    upgrade_level: 0,
     name: "Iron Chestplate",
     type: "Medium",
     hp: 90,
@@ -122,6 +142,7 @@ const armorData = [
   {
     id: 15,
     item_type: "armor",
+    upgrade_level: 0,
     name: "Runic Armor",
     type: "Heavy",
     hp: 140,
@@ -131,6 +152,7 @@ const armorData = [
   {
     id: 16,
     item_type: "armor",
+    upgrade_level: 0,
     name: "Scaled Armor",
     type: "Medium",
     hp: 85,
@@ -140,6 +162,7 @@ const armorData = [
   {
     id: 17,
     item_type: "armor",
+    upgrade_level: 0,
     name: "Leather Helm",
     type: "Light",
     hp: 5,
@@ -149,6 +172,7 @@ const armorData = [
   {
     id: 18,
     item_type: "armor",
+    upgrade_level: 0,
     name: "Iron Greaves",
     type: "Medium",
     hp: 20,
@@ -157,6 +181,8 @@ const armorData = [
   },
   {
     id: 19,
+    item_type: "armor",
+    upgrade_level: 0,
     name: "Dragonhide Vest",
     type: "Heavy",
     hp: 130,
@@ -165,6 +191,8 @@ const armorData = [
   },
   {
     id: 20,
+    item_type: "armor",
+    upgrade_level: 0,
     name: "Celestial Armor",
     type: "Heavy",
     hp: 170,
@@ -173,6 +201,8 @@ const armorData = [
   },
   {
     id: 21,
+    item_type: "armor",
+    upgrade_level: 0,
     name: "Barbarian Armor",
     type: "Heavy",
     hp: 110,
@@ -182,6 +212,7 @@ const armorData = [
   {
     id: 22,
     item_type: "armor",
+    upgrade_level: 0,
     name: "Spectral Armor",
     type: "Light",
     hp: 25,
@@ -191,6 +222,7 @@ const armorData = [
   {
     id: 23,
     item_type: "armor",
+    upgrade_level: 0,
     name: "Gilded Plate",
     type: "Heavy",
     hp: 160,
@@ -199,6 +231,8 @@ const armorData = [
   },
   {
     id: 24,
+    item_type: "armor",
+    upgrade_level: 0,
     name: "Enchanted Leather Armor",
     type: "Light",
     hp: 55,
@@ -207,6 +241,8 @@ const armorData = [
   },
   {
     id: 25,
+    item_type: "armor",
+    upgrade_level: 0,
     name: "Vanguard Armor",
     type: "Medium",
     hp: 95,

@@ -1,21 +1,21 @@
 const upgradeStats_weapon_data = {
-  Sword: { atk: 5, mp: 0, price: 100 },
-  Dagger: { atk: 4, mp: 0, price: 80 }, // Slightly less ATK, lower price
-  Hammer: { atk: 6, mp: 0, price: 130 }, // Higher ATK, higher price
-  Axe: { atk: 6, mp: 0, price: 120 }, // Higher ATK, adjusted price
-  Bow: { atk: 5, mp: 0, price: 110 }, // Balanced ATK, adjusted price
-  Staff: { atk: 4, mp: 2, price: 140 }, // MP bonus, slightly less ATK, higher price
-  Spear: { atk: 5, mp: 0, price: 110 }, // Balanced ATK, adjusted price
-  Mace: { atk: 6, mp: 0, price: 140 }, // Higher ATK, higher price
-  Halberd: { atk: 6, mp: 0, price: 130 }, // Higher ATK, adjusted price
-  Whip: { atk: 4, mp: 0, price: 90 }, // Slightly less ATK, lower price
-  Lance: { atk: 5, mp: 0, price: 115 }, // Balanced ATK, adjusted price
-  Scythe: { atk: 6, mp: 0, price: 150 }, // Highest ATK, highest price
-  Ward: { atk: 3, mp: 0, price: 70 }, // Lower ATK, lower price
-  Katana: { atk: 6, mp: 0, price: 140 }, // High ATK, higher price
-  Karta: { atk: 5, mp: 1, price: 120 }, // Balanced ATK, minor MP bonus, adjusted price
-  MagicSword: { atk: 6, mp: 3, price: 160 }, // High ATK, higher MP bonus, higher price
+  Sword: { atk: 5, mp: 0, price: 100, critRate: 0.05, critDamage: 0.07 },
+  Dagger: { atk: 4, mp: 0, price: 85, critRate: 0.08, critDamage: 0.1 },
+  Hammer: { atk: 7, mp: 0, price: 140, critRate: 0.03, critDamage: 0.2 },
+  Axe: { atk: 6, mp: 0, price: 125, critRate: 0.06, critDamage: 0.1 },
+  Bow: { atk: 5, mp: 0, price: 115, critRate: 0.07, critDamage: 0.08 },
+  Staff: { atk: 4, mp: 3, price: 150, critRate: 0.05, critDamage: 0.04 },
+  Spear: { atk: 5, mp: 0, price: 115, critRate: 0.06, critDamage: 0.08 },
+  Mace: { atk: 6, mp: 0, price: 145, critRate: 0.04, critDamage: 0.15 },
+  Halberd: { atk: 6, mp: 0, price: 135, critRate: 0.07, critDamage: 0.1 },
+  Whip: { atk: 4, mp: 0, price: 95, critRate: 0.05, critDamage: 0.07 },
+  Lance: { atk: 5, mp: 0, price: 120, critRate: 0.08, critDamage: 0.08 },
+  Scythe: { atk: 7, mp: 0, price: 160, critRate: 0.03, critDamage: 0.2 },
+  Ward: { atk: 3, mp: 0, price: 75, critRate: 0.02, critDamage: 0.03 },
+  Katana: { atk: 6, mp: 0, price: 150, critRate: 0.07, critDamage: 0.15 },
+  Karta: { atk: 5, mp: 2, price: 125, critRate: 0.05, critDamage: 0.1 },
+  MagicAndSword: { atk: 7, mp: 4, price: 170, critRate: 0.04, critDamage: 0.2 },
+  Blade: { atk: 6, mp: 0, price: 140, critRate: 0.08, critDamage: 0.12 },
 };
 
 export default upgradeStats_weapon_data;
-
