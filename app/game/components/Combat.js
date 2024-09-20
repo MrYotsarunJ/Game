@@ -92,7 +92,6 @@ const Combat = ({
         : item
     );
 
-    console.log(enemies_data);
     setEnemiesData(enemies_data);
   };
 

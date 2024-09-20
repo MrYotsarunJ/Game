@@ -289,6 +289,7 @@ const CharacterStatus = ({
       gold: prev.gold - upgrade.price,
     }));
 
+
     notification.success({
       message: "Armor Upgraded",
       description: `Your ${selectedArmor.name} has been upgraded successfully!`,
@@ -345,6 +346,7 @@ const CharacterStatus = ({
           }
         : item
     );
+
 
     setAccessoriesData(upgradedAccessories);
     setInventoryData((prev) => ({

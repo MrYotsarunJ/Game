@@ -37,20 +37,41 @@ const GameProvider = ({ children }) => {
   const [inventory, setInventoryData] = useState(inventoryData);
   const [equipment, setEquipmentData] = useState(equipmentData);
 
+  const [weapon, setWeaponData] = useState(weaponData);
+  const [accessories, setAccessoriesData] = useState(accessoriesData);
+  const [armor, setArmorData] = useState(armorData);
+
   // Compute derived character state
   const [character, setCharacter] = useState(() =>
-    computeCharacter(baseCharacterData, characterStatusUpgrade, equipment)
+    computeCharacter(
+      baseCharacterData,
+      characterStatusUpgrade,
+      equipment,
+      weapon,
+      accessories,
+      armor
+    )
   );
 
   useEffect(() => {
-    console.log("Updated Inventory:", inventory);
-  }, [inventory]);
-
-  useEffect(() => {
     setCharacter(
-      computeCharacter(baseCharacter, characterStatusUpgrade, equipment)
+      computeCharacter(
+        baseCharacter,
+        characterStatusUpgrade,
+        equipment,
+        weapon,
+        accessories,
+        armor
+      )
     );
-  }, [baseCharacter, characterStatusUpgrade, equipment]);
+  }, [
+    baseCharacter,
+    characterStatusUpgrade,
+    equipment,
+    weapon,
+    accessories,
+    armor,
+  ]);
 
   return (
     <GameContext.Provider
@@ -65,6 +86,12 @@ const GameProvider = ({ children }) => {
         setEquipmentData,
         characterStatusUpgrade,
         setCharacterStatusUpgradeData,
+        weapon,
+        accessories,
+        armor,
+        setWeaponData,
+        setAccessoriesData,
+        setArmorData,
       }}
     >
       {children}
@@ -76,63 +103,46 @@ const GameProvider = ({ children }) => {
 const useGameContext = () => useContext(GameContext);
 
 // Compute function for character stats
-const computeCharacter = (baseCharacter, statusUpgrade, equipment) => {
+const computeCharacter = (
+  baseCharacter,
+  statusUpgrade,
+  equipment,
+  weapon,
+  accessories,
+  armor
+) => {
+  const equippedWeapon = equipment.use_weapon
+    ? weapon.find((item) => item.id === equipment.use_weapon)
+    : null;
+  const equippedArmor = equipment.use_armor
+    ? armor.find((item) => item.id === equipment.use_armor)
+    : null;
+  const equippedAccessory = equipment.use_accessories
+    ? accessories.find((item) => item.id === equipment.use_accessories)
+    : null;
+
   return {
     ...baseCharacter,
     ...statusUpgrade,
-    hp:
-      baseCharacter.hp +
-      statusUpgrade.hp +
-      (equipment.use_armor
-        ? armorData.find((item) => item.id === equipment.use_armor)?.hp || 0
-        : 0),
+    hp: baseCharacter.hp + statusUpgrade.hp + (equippedArmor?.hp || 0),
     mp:
       baseCharacter.mp +
       statusUpgrade.mp +
-      (equipment.use_weapon
-        ? weaponData.find((item) => item.id === equipment.use_weapon)?.mp || 0
-        : 0) +
-      (equipment.use_accessories
-        ? accessoriesData.find((item) => item.id === equipment.use_accessories)
-            ?.mp || 0
-        : 0),
-    atk:
-      baseCharacter.atk +
-      statusUpgrade.atk +
-      (equipment.use_weapon
-        ? weaponData.find((item) => item.id === equipment.use_weapon)?.atk || 0
-        : 0),
-    def:
-      baseCharacter.def +
-      statusUpgrade.def +
-      (equipment.use_armor
-        ? armorData.find((item) => item.id === equipment.use_armor)?.def || 0
-        : 0),
+      (equippedWeapon?.mp || 0) +
+      (equippedAccessory?.mp || 0),
+    atk: baseCharacter.atk + statusUpgrade.atk + (equippedWeapon?.atk || 0),
+    def: baseCharacter.def + statusUpgrade.def + (equippedArmor?.def || 0),
     critRate: Math.min(
       baseCharacter.critRate +
-        (equipment.use_accessories
-          ? accessoriesData.find(
-              (item) => item.id === equipment.use_accessories
-            )?.critRate || 0
-          : 0) +
-        (equipment.use_weapon
-          ? weaponData.find((item) => item.id === equipment.use_weapon)
-              ?.critRate || 0
-          : 0),
+        (equippedAccessory?.critRate || 0) +
+        (equippedWeapon?.critRate || 0),
       1
     ),
     critDamage: Math.min(
       baseCharacter.critDamage +
-        (equipment.use_accessories
-          ? accessoriesData.find(
-              (item) => item.id === equipment.use_accessories
-            )?.critDamage || 0
-          : 0) +
-        (equipment.use_weapon
-          ? weaponData.find((item) => item.id === equipment.use_weapon)
-              ?.critDamage || 0
-          : 0),
-      2
+        (equippedAccessory?.critDamage || 0) +
+        (equippedWeapon?.critDamage || 0),
+      10
     ),
   };
 };
@@ -150,12 +160,15 @@ const Game = () => {
     setEquipmentData,
     characterStatusUpgrade,
     setCharacterStatusUpgradeData,
+    weapon,
+    accessories,
+    armor,
+    setWeaponData,
+    setAccessoriesData,
+    setArmorData,
   } = useGameContext();
   const [skills, setSkills] = useState(skillsData);
   const [enemies, setEnemiesData] = useState(enemiesData);
-  const [weapon, setWeaponData] = useState(weaponData);
-  const [accessories, setAccessoriesData] = useState(accessoriesData);
-  const [armor, setArmorData] = useState(armorData);
 
   const [upgradeStats_weapon, setupgradeStatsweapon] = useState(
     upgradeStats_weapon_data
@@ -180,7 +193,7 @@ const Game = () => {
 
   useEffect(() => {
     setMaxStats({ hp: character.hp, mp: character.mp });
-  }, [weapon, accessories, armor, baseCharacter, characterStatusUpgrade]);
+  }, [character]);
 
   const items = [
     {
