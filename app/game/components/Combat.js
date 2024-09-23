@@ -25,7 +25,6 @@ const Combat = ({
   setInventoryData,
   weapon,
   equipment,
-  maxStats,
   potion,
   setPotionData,
   upgradeStats_enemies,
@@ -34,6 +33,12 @@ const Combat = ({
   onCombat,
   setOnCombat,
 }) => {
+  const [clonedCharacter, setClonedCharacter] = useState(character);
+
+  useEffect(() => {
+    setClonedCharacter(character);
+  }, [character]);
+
   const [selectedEnemy, setSelectedEnemy] = useState(null);
   const [playerTurn, setPlayerTurn] = useState(true); // Player starts the turn
 
@@ -57,9 +62,10 @@ const Combat = ({
   }, {});
 
   const handleFight = (enemy) => {
+    setPlayerTurn(true)
     setSelectedEnemy(enemy);
     setOnCombat(true);
-    setPlayerTurn(true); // Ensure player starts the turn
+    ; // Ensure player starts the turn
   };
 
   const escape = () => {
@@ -78,7 +84,6 @@ const Combat = ({
         description: "The enemy blocked your escape attempt.",
       });
       setPlayerTurn(false);
-      setTimeout(enemyAttack, 1000); // Delay enemy attack to simulate turn-based combat
     }
   };
 
@@ -129,7 +134,7 @@ const Combat = ({
 
     const skill = filteredSkills.find((skill) => skill.id === skillId);
 
-    if (character.mp < skill.mpCost) {
+    if (clonedCharacter.mp < skill.mpCost) {
       notification.error({
         message: "Not Enough MP",
         description: `You need ${skill.mpCost} MP to use ${skill.name}.`,
@@ -138,7 +143,7 @@ const Combat = ({
     }
 
     // Deduct MP cost first
-    setCharacter((prev) => ({
+    setClonedCharacter((prev) => ({
       ...prev,
       mp: prev.mp - skill.mpCost,
     }));
@@ -162,23 +167,8 @@ const Combat = ({
         });
         break;
 
-      case "Heal":
-        const healAmount = skill.heal || 0;
-        setCharacter((prev) => {
-          const newHp = Math.min(prev.hp + healAmount, 100); // Assume max HP is 100
-          skillMessage = `You healed yourself for ${healAmount} HP.`;
-          return { ...prev, hp: newHp };
-        });
-        break;
-
-      case "Defense":
-        const defIncrease = skill.defIncrease || 0;
-        setCharacter((prev) => {
-          skillMessage = `You increased your defense by ${defIncrease}.`;
-          return { ...prev, def: prev.def + defIncrease };
-        });
-        break;
-
+      
+   
       default:
         notification.error({
           message: "Unknown Skill Type",
@@ -195,7 +185,6 @@ const Combat = ({
 
     // End player's turn and start enemy's turn
     setPlayerTurn(false);
-    setTimeout(enemyAttack, 2000); // Delay enemy attack to simulate turn-based combat
   };
 
   useEffect(() => {
@@ -203,12 +192,17 @@ const Combat = ({
       if (selectedEnemy.hp <= 0) {
         fightEnemy(selectedEnemy);
         return;
+      }else{
+        if(playerTurn==false){
+          enemyAttack()
+
+        }
       }
     }
   }, [selectedEnemy]);
 
   useEffect(() => {
-    if (character.hp <= 0) {
+    if (clonedCharacter.hp <= 0) {
       notification.error({
         message: "Defeat",
         description: `You were defeated by ${selectedEnemy.name}.`,
@@ -223,7 +217,7 @@ const Combat = ({
     if (selectedEnemy && selectedEnemy.hp > 0) {
       // Calculate damage dealt by enemy
       const damage = Math.max(selectedEnemy.atk - character.def, 0);
-      setCharacter((prev) => {
+      setClonedCharacter((prev) => {
         const newHp = Math.max(prev.hp - damage, 0);
         return { ...prev, hp: newHp };
       });
@@ -240,7 +234,7 @@ const Combat = ({
   };
 
   const usePotion = (select_potion) => {
-    if (character.hp <= 0) {
+    if (clonedCharacter.hp <= 0) {
       notification.error({
         message: "Cannot Use Potion",
         description: "You cannot use potions while defeated.",
@@ -248,7 +242,7 @@ const Combat = ({
       return;
     }
 
-    if (select_potion.type == "hpPotion" && character.hp === maxStats.hp) {
+    if (select_potion.type == "hpPotion" && character.hp === clonedCharacter.hp) {
       notification.info({
         message: "Full HP",
         description: "You are already at full HP.",
@@ -256,7 +250,7 @@ const Combat = ({
       return;
     }
 
-    if (select_potion.type == "mpPotion" && character.mp === maxStats.mp) {
+    if (select_potion.type == "mpPotion" && character.mp === clonedCharacter.mp) {
       notification.info({
         message: "Full MP",
         description: "You are already at full MP.",
@@ -266,8 +260,8 @@ const Combat = ({
 
     if (
       select_potion.type == "mixPotion" &&
-      character.hp === maxStats.hp &&
-      character.mp === maxStats.mp
+      character.hp === clonedCharacter.hp &&
+      character.mp === clonedCharacter.mp
     ) {
       notification.info({
         message: "Full HP & Full MP",
@@ -279,8 +273,8 @@ const Combat = ({
     let updateCharacter = {};
     if (select_potion.have > 0) {
       updateCharacter = {
-        hp: Math.min(character.hp + select_potion.hp, maxStats.hp),
-        mp: Math.min(character.mp + select_potion.mp, maxStats.mp),
+        hp: Math.min(clonedCharacter.hp + select_potion.hp, character.hp),
+        mp: Math.min(clonedCharacter.mp + select_potion.mp, character.mp),
       };
 
       const selectedPotion = potion.map((item) =>
@@ -294,7 +288,7 @@ const Combat = ({
 
       setPotionData(selectedPotion);
 
-      setCharacter((prev) => ({ ...prev, ...updateCharacter }));
+      setClonedCharacter((prev) => ({ ...prev, ...updateCharacter }));
 
       notification.success({
         message: "Use Potion",
@@ -508,7 +502,7 @@ const Combat = ({
                   <Button
                     type="primary"
                     onClick={() => usePotion(item)}
-                    disabled={item.have <= 0 || character.hp <= 0}
+                    disabled={item.have <= 0 || clonedCharacter.hp <= 0}
                   >
                     USE
                   </Button>,
@@ -540,7 +534,7 @@ const Combat = ({
                   <Button
                     type="primary"
                     onClick={() => usePotion(item)}
-                    disabled={item.have <= 0 || character.hp <= 0}
+                    disabled={item.have <= 0 || clonedCharacter.hp <= 0}
                   >
                     USE
                   </Button>,
@@ -572,7 +566,7 @@ const Combat = ({
                   <Button
                     type="primary"
                     onClick={() => usePotion(item)}
-                    disabled={item.have <= 0 || character.hp <= 0}
+                    disabled={item.have <= 0 || clonedCharacter.hp <= 0}
                   >
                     USE
                   </Button>,
@@ -608,9 +602,9 @@ const Combat = ({
                         <Button
                           onClick={() => useSkill(skill.id)}
                           disabled={
-                            character.mp < skill.mpCost ||
+                            clonedCharacter.mp < skill.mpCost ||
                             !playerTurn ||
-                            character.hp <= 0
+                            clonedCharacter.hp <= 0
                           }
                         >
                           Use
@@ -654,19 +648,19 @@ const Combat = ({
         <Col span={12}>
           <Title level={4}>Player Status</Title>
           <Paragraph>
-            HP: {character.hp} / {maxStats.hp}
+            HP: {clonedCharacter.hp} / {character.hp}
           </Paragraph>
           <Progress
-            percent={(character.hp / maxStats.hp) * 100}
+            percent={(clonedCharacter.hp / character.hp) * 100}
             showInfo={false}
             strokeColor="green"
             style={{ marginBottom: "10px" }}
           />
           <Paragraph>
-            MP: {character.mp} / {maxStats.mp}
+            MP: {clonedCharacter.mp} / {character.mp}
           </Paragraph>
           <Progress
-            percent={(character.mp / maxStats.mp) * 100}
+            percent={(clonedCharacter.mp / character.mp) * 100}
             showInfo={false}
             strokeColor="blue"
             style={{ marginBottom: "10px" }}
@@ -702,7 +696,7 @@ const Combat = ({
               <Button
                 type="primary"
                 onClick={enemyAttack}
-                disabled={playerTurn || character.hp <= 0}
+                disabled={playerTurn || clonedCharacter.hp <= 0}
                 style={{ margin: "10px 0" }}
               >
                 End Turn

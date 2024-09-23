@@ -185,18 +185,7 @@ const Game = () => {
 
   const [combatLog, setCombatLog] = useState([]);
 
-  const [maxStats, setMaxStats] = useState([{ hp: 0, mp: 0 }]);
 
-  useEffect(() => {
-    setMaxStats({ hp: character.hp, mp: character.mp });
-  }, [
-    baseCharacter,
-    characterStatusUpgrade,
-    equipment,
-    weapon,
-    accessories,
-    armor,
-  ]);
 
   const [onCombat, setOnCombat] = useState(false);
 
@@ -278,7 +267,6 @@ const Game = () => {
           setInventoryData={setInventoryData}
           weapon={weapon}
           equipment={equipment}
-          maxStats={maxStats}
           potion={potion}
           setPotionData={setPotionData}
           upgradeStats_enemies={upgradeStats_enemies}

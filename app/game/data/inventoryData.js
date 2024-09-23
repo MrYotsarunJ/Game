@@ -1,5 +1,5 @@
 const inventoryData = {
-  gold: 1000,
+  gold: 200,
 
   inventory: {
     hpPotion: 0,
