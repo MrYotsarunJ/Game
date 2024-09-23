@@ -31,6 +31,8 @@ const Combat = ({
   upgradeStats_enemies,
   set_upgradeStats_enemies_data,
   setEnemiesData,
+  onCombat,
+  setOnCombat,
 }) => {
   const [selectedEnemy, setSelectedEnemy] = useState(null);
   const [playerTurn, setPlayerTurn] = useState(true); // Player starts the turn
@@ -56,7 +58,28 @@ const Combat = ({
 
   const handleFight = (enemy) => {
     setSelectedEnemy(enemy);
+    setOnCombat(true);
     setPlayerTurn(true); // Ensure player starts the turn
+  };
+
+  const escape = () => {
+    // Generate a random number between 0 and 1, 50% chance to escape
+    if (Math.random() < 0.5) {
+      notification.success({
+        message: "Escape Successful!",
+        description: "You managed to escape from the battle.",
+      });
+      setSelectedEnemy(null);
+      setPlayerTurn(true); // Allow player to select a new enemy
+      setOnCombat(false);
+    } else {
+      notification.error({
+        message: "Escape Failed!",
+        description: "The enemy blocked your escape attempt.",
+      });
+      setPlayerTurn(false);
+      setTimeout(enemyAttack, 1000); // Delay enemy attack to simulate turn-based combat
+    }
   };
 
   const fightEnemy = (enemy) => {
@@ -73,7 +96,7 @@ const Combat = ({
     }));
     setSelectedEnemy(null);
     setPlayerTurn(true); // Allow player to select a new enemy
-
+    setOnCombat(false);
     addStatus(enemy);
   };
 
@@ -172,7 +195,7 @@ const Combat = ({
 
     // End player's turn and start enemy's turn
     setPlayerTurn(false);
-    setTimeout(enemyAttack, 1000); // Delay enemy attack to simulate turn-based combat
+    setTimeout(enemyAttack, 2000); // Delay enemy attack to simulate turn-based combat
   };
 
   useEffect(() => {
@@ -650,8 +673,15 @@ const Combat = ({
           />
           <Paragraph>Attack: {character.atk}</Paragraph>
           <Paragraph>Defense: {character.def}</Paragraph>
+          <Paragraph>
+            Crit Rate: {(character.critRate * 100).toFixed(2)} %
+          </Paragraph>
+          <Paragraph>
+            Crit Damage: {(character.critDamage * 100).toFixed(2)} %
+          </Paragraph>
           <Paragraph>Gold: {inventory.gold}</Paragraph>
         </Col>
+
         <Col span={12}>
           <Title level={4}>Enemies</Title>
           {selectedEnemy ? (
@@ -676,6 +706,14 @@ const Combat = ({
                 style={{ margin: "10px 0" }}
               >
                 End Turn
+              </Button>
+
+              <Button
+                type="primary"
+                onClick={escape}
+                style={{ margin: "10px 0" }}
+              >
+                Escape
               </Button>
             </>
           ) : (

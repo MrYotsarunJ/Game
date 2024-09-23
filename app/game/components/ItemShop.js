@@ -133,7 +133,7 @@ const ItemShop = ({
               >
                 <List.Item.Meta
                   title={item.name}
-                  description={`Hp: ${item.hp},Mp: ${item.mp}, Have: ${item.have}`}
+                  description={`Hp: ${item.hp}, MP: ${item.mp}, Have: ${item.have}`}
                 />
               </List.Item>
             )}
@@ -161,7 +161,7 @@ const ItemShop = ({
               >
                 <List.Item.Meta
                   title={item.name}
-                  description={`Hp: ${item.hp},Mp: ${item.mp}, Have: ${item.have}`}
+                  description={`Hp: ${item.hp}, MP: ${item.mp}, Have: ${item.have}`}
                 />
               </List.Item>
             )}
@@ -189,7 +189,7 @@ const ItemShop = ({
               >
                 <List.Item.Meta
                   title={item.name}
-                  description={`Hp: ${item.hp},Mp: ${item.mp}, Have: ${item.have}`}
+                  description={`Hp: ${item.hp}, MP: ${item.mp}, Have: ${item.have}`}
                 />
               </List.Item>
             )}
@@ -236,7 +236,11 @@ const ItemShop = ({
               >
                 <List.Item.Meta
                   title={item.name}
-                  description={`Attack: ${item.atk}, MP: ${item.mp}`}
+                  description={`Attack: ${item.atk}, MP: ${
+                    item.mp
+                  }, Crit Rate: ${(item.critRate * 100).toFixed(
+                    1
+                  )}%, Crit Damage: ${(item.critDamage * 100).toFixed(1)}%, Rank: ${item.rank}`}
                 />
               </List.Item>
             )}

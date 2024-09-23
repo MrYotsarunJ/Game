@@ -15,7 +15,6 @@ import armorData from "./data/armorData";
 import characterStatusUpgradeData from "./data/characterStatusUpgradeData";
 import potionData from "./data/potionData";
 
-import upgradeStats_accessorie_data from "./data/upgradeStats_accessorie";
 import upgradeStats_armor_data from "./data/upgradeStats_armor";
 import upgradeStats_weapon_data from "./data/upgradeStats_weapon";
 import upgradeStats_data from "./data/upgradeStats";
@@ -169,16 +168,14 @@ const Game = () => {
   } = useGameContext();
   const [skills, setSkills] = useState(skillsData);
   const [enemies, setEnemiesData] = useState(enemiesData);
-
+console.log(upgradeStats_weapon_data)
   const [upgradeStats_weapon, setupgradeStatsweapon] = useState(
     upgradeStats_weapon_data
   );
   const [upgradeStats_armor, setupgradeStatsarmor] = useState(
     upgradeStats_armor_data
   );
-  const [upgradeStats_accessorie, setupgradeStatsaccessorie] = useState(
-    upgradeStats_accessorie_data
-  );
+  
   const [upgradeStats, set_upgradeStats] = useState(upgradeStats_data);
 
   const [upgradeStats_enemies, set_upgradeStats_enemies_data] = useState(
@@ -193,7 +190,16 @@ const Game = () => {
 
   useEffect(() => {
     setMaxStats({ hp: character.hp, mp: character.mp });
-  }, [character]);
+  }, [
+    baseCharacter,
+    characterStatusUpgrade,
+    equipment,
+    weapon,
+    accessories,
+    armor,
+  ]);
+
+  const [onCombat, setOnCombat] = useState(false);
 
   const items = [
     {
@@ -210,7 +216,7 @@ const Game = () => {
           armor={armor}
           upgradeStats_weapon={upgradeStats_weapon}
           upgradeStats_armor={upgradeStats_armor}
-          upgradeStats_accessorie={upgradeStats_accessorie}
+        
           upgradeStats={upgradeStats}
           setCharacter={setCharacter}
           baseCharacter={baseCharacter}
@@ -225,6 +231,7 @@ const Game = () => {
           setArmorData={setArmorData}
         />
       ),
+      disabled: onCombat,
     },
     {
       key: "skills",
@@ -239,6 +246,7 @@ const Game = () => {
           setInventoryData={setInventoryData}
         />
       ),
+      disabled: onCombat,
     },
     {
       key: "item-shop",
@@ -254,6 +262,7 @@ const Game = () => {
           setPotionData={setPotionData}
         />
       ),
+      disabled: onCombat,
     },
     {
       key: "combat",
@@ -276,8 +285,11 @@ const Game = () => {
           setPotionData={setPotionData}
           upgradeStats_enemies={upgradeStats_enemies}
           set_upgradeStats_enemies_data={set_upgradeStats_enemies_data}
+          onCombat={onCombat}
+          setOnCombat={setOnCombat}
         />
       ),
+      disabled: onCombat,
     },
   ];
 

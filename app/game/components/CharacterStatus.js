@@ -37,7 +37,6 @@ const CharacterStatus = ({
   setAccessoriesData,
   upgradeStats_weapon,
   upgradeStats_armor,
-  upgradeStats_accessorie,
   upgradeStats,
   potion,
   setPotionData,
@@ -177,64 +176,63 @@ const CharacterStatus = ({
     const selectedWeapon = weapon.find((item) => item.id === weaponId);
 
     if (!selectedWeapon) {
-      notification.error({
-        message: "Weapon not found",
-      });
-      return;
+        notification.error({ message: "Weapon not found" });
+        return;
     }
 
-    if (selectedWeapon.upgrade_level == 10) {
-      notification.error({
-        message: "Weapon Level Maximum",
-        description: `You Weapon is Level ${selectedWeapon.upgrade_level} Can't upgrade.`,
-      });
-      return;
+    if (selectedWeapon.upgrade_level === 10) {
+        notification.error({
+            message: "Weapon Level Maximum",
+            description: `Your weapon is Level ${selectedWeapon.upgrade_level}. Can't upgrade.`,
+        });
+        return;
     }
 
-    const { type } = selectedWeapon;
-    const { atk, mp, critRate, critDamage, price, upgrade_level } =
-      upgradeStats_weapon[type] || {
+    const { type, rank } = selectedWeapon;
+    const upgradeStats = upgradeStats_weapon.find((item) => item.weaponType === type && item.rank === rank) || {
         atk: 0,
         mp: 0,
-        critDamage: 0,
         critRate: 0,
+        critDamage: 0,
         price: 0,
         upgrade_level: 0,
-      };
+    };
+
+    const { atk, mp, critRate, critDamage, price } = upgradeStats;
 
     if (inventory.gold < price) {
-      notification.error({
-        message: "Not Enough Gold",
-        description: `You need ${price} gold to upgrade the ${type}.`,
-      });
-      return;
+        notification.error({
+            message: "Not Enough Gold",
+            description: `You need ${price} gold to upgrade the ${type}.`,
+        });
+        return;
     }
 
     const upgradedWeapon = weapon.map((item) =>
-      item.id === weaponId
-        ? {
-            ...item,
-            atk: item.atk + atk,
-            mp: item.mp + mp,
-            critRate: item.critRate + critRate,
-            critDamage: item.critDamage + critDamage,
-            upgrade_level: item.upgrade_level + 1,
-          }
-        : item
+        item.id === weaponId
+            ? {
+                  ...item,
+                  atk: item.atk + atk,
+                  mp: item.mp + mp,
+                  critRate: item.critRate + critRate,
+                  critDamage: item.critDamage + critDamage,
+                  upgrade_level: item.upgrade_level + 1,
+              }
+            : item
     );
 
     setWeaponData(upgradedWeapon); // Update the weapon data
 
     setInventoryData((prev) => ({
-      ...prev,
-      gold: prev.gold - price,
+        ...prev,
+        gold: prev.gold - price,
     }));
 
     notification.success({
-      message: "Weapon Upgraded",
-      description: `Your ${selectedWeapon.name} has been upgraded successfully!`,
+        message: "Weapon Upgraded",
+        description: `Your ${selectedWeapon.name} has been upgraded successfully!`,
     });
-  };
+};
 
   // Function to upgrade armor data by ID
   const upgradeArmor = () => {
@@ -296,69 +294,7 @@ const CharacterStatus = ({
     });
   };
 
-  // Function to upgrade accessory data by ID
-  const upgradeAccessory = () => {
-    const accessoryId = equipment.use_accessories;
-    const selectedAccessory = accessories.find(
-      (item) => item.id === accessoryId
-    );
-
-    if (!selectedAccessory) {
-      notification.error({
-        message: "Accessory not found",
-      });
-      return;
-    }
-
-    if (selectedAccessory.upgrade_level == 10) {
-      notification.error({
-        message: "Accessory Level Maximum",
-        description: `You Accessory is Level ${selectedAccessory.upgrade_level} Can't upgrade.`,
-      });
-      return;
-    }
-
-    const { type } = selectedAccessory;
-    const upgrade = upgradeStats_accessorie[type] || {
-      critRate: 0,
-      critDamage: 0,
-      mp: 0,
-      upgrade_level: 0,
-      price: 0,
-    };
-
-    if (inventory.gold < upgrade.price) {
-      notification.error({
-        message: "Not Enough Gold",
-        description: `You need ${upgrade.price} gold to upgrade the accessory.`,
-      });
-      return;
-    }
-
-    const upgradedAccessories = accessories.map((item) =>
-      item.id === accessoryId
-        ? {
-            ...item,
-            critRate: item.critRate + upgrade.critRate,
-            critDamage: item.critDamage + upgrade.critDamage,
-            mp: item.mp + upgrade.mp,
-            upgrade_level: item.upgrade_level + 1,
-          }
-        : item
-    );
-
-
-    setAccessoriesData(upgradedAccessories);
-    setInventoryData((prev) => ({
-      ...prev,
-      gold: prev.gold - upgrade.price,
-    }));
-
-    notification.success({
-      message: "Accessory Upgraded",
-      description: `Your ${selectedAccessory.name} has been upgraded successfully!`,
-    });
-  };
+  
 
   // Function to handle generic stat upgrades
   const handleUpgrade = (stat) => {
@@ -594,21 +530,7 @@ const CharacterStatus = ({
               ))}
           </Select>
 
-          <Button
-            icon={<PlusOutlined />} // Add icon to the button
-            onClick={upgradeAccessory}
-            disabled={
-              !equipment.use_accessories ||
-              inventory.gold <
-                upgradeStats_accessorie[
-                  accessories.find(
-                    (item) => item.id === equipment.use_accessories
-                  )?.type
-                ]?.price
-            }
-          >
-            Upgrade Accessory
-          </Button>
+        
         </Col>
       </Row>
     </Card>
