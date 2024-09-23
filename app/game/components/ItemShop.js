@@ -240,7 +240,9 @@ const ItemShop = ({
                     item.mp
                   }, Crit Rate: ${(item.critRate * 100).toFixed(
                     1
-                  )}%, Crit Damage: ${(item.critDamage * 100).toFixed(1)}%, Rank: ${item.rank}`}
+                  )}%, Crit Damage: ${(item.critDamage * 100).toFixed(
+                    1
+                  )}%, Rank: ${item.rank}`}
                 />
               </List.Item>
             )}

@@ -168,7 +168,6 @@ const Game = () => {
   } = useGameContext();
   const [skills, setSkills] = useState(skillsData);
   const [enemies, setEnemiesData] = useState(enemiesData);
-console.log(upgradeStats_weapon_data)
   const [upgradeStats_weapon, setupgradeStatsweapon] = useState(
     upgradeStats_weapon_data
   );

@@ -1,279 +1,828 @@
-const accessoriesData = [
+const accessoriesData_main = [
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 1,
     name: "Mystic Amulet",
     type: "Necklace",
-    critRate: 0.05, // Lower critRate
-    critDamage: 0.1, // Lower critDamage
-    mp: 4,
-    price: 100, // Adjusted price
+    critRate: 0.02,
+    critDamage: 0.04,
+    mp: 2,
+    price: 70,
+    rank: "C",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 2,
     name: "Dragon Ring",
     type: "Ring",
-    critRate: 0.08, // Lower critRate
-    critDamage: 0.15, // Lower critDamage
-    mp: 6,
-    price: 140, // Adjusted price
+    critRate: 0.04,
+    critDamage: 0.08,
+    mp: 3,
+    price: 100,
+    rank: "UC",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 3,
     name: "Elven Bracelet",
     type: "Bracelet",
-    critRate: 0.06, // Lower critRate
-    critDamage: 0.12, // Lower critDamage
-    mp: 3,
-    price: 90, // Adjusted price
+    critRate: 0.06,
+    critDamage: 0.12,
+    mp: 4,
+    price: 120,
+    rank: "R",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 4,
     name: "Warrior's Belt",
     type: "Belt",
-    critRate: 0.07, // Lower critRate
-    critDamage: 0.1, // Lower critDamage
+    critRate: 0.08,
+    critDamage: 0.16,
     mp: 5,
-    price: 130, // Adjusted price
+    price: 150,
+    rank: "SR",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 5,
     name: "Guardian Pendant",
     type: "Necklace",
-    critRate: 0.1, // Lower critRate
-    critDamage: 0.2, // Lower critDamage
+    critRate: 0.1,
+    critDamage: 0.2,
     mp: 6,
-    price: 180, // Adjusted price
+    price: 200,
+    rank: "SSR",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 6,
     name: "Sorcerer's Ring",
     type: "Ring",
-    critRate: 0.12, // Lower critRate
-    critDamage: 0.25, // Lower critDamage
+    critRate: 0.12,
+    critDamage: 0.25,
     mp: 8,
-    price: 220, // Adjusted price
+    price: 250,
+    rank: "UR",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 7,
     name: "Assassin's Bracelet",
     type: "Bracelet",
-    critRate: 0.1, // Lower critRate
-    critDamage: 0.22, // Lower critDamage
+    critRate: 0.09,
+    critDamage: 0.18,
     mp: 5,
-    price: 150, // Adjusted price
+    price: 160,
+    rank: "R",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 8,
     name: "Berserker's Belt",
     type: "Belt",
-    critRate: 0.08, // Lower critRate
-    critDamage: 0.18, // Lower critDamage
+    critRate: 0.07,
+    critDamage: 0.14,
     mp: 4,
-    price: 120, // Adjusted price
+    price: 120,
+    rank: "C",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 9,
     name: "Mystic Earring",
     type: "Earring",
-    critRate: 0.05, // Lower critRate
-    critDamage: 0.1, // Lower critDamage
+    critRate: 0.04,
+    critDamage: 0.06,
     mp: 2,
-    price: 70, // Adjusted price
+    price: 70,
+    rank: "C",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 10,
     name: "Celestial Pendant",
     type: "Necklace",
-    critRate: 0.12, // Lower critRate
-    critDamage: 0.25, // Lower critDamage
+    critRate: 0.1,
+    critDamage: 0.22,
     mp: 10,
-    price: 250, // Adjusted price
+    price: 280,
+    rank: "UR",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 11,
     name: "Enchanted Ring",
     type: "Ring",
-    critRate: 0.07, // Lower critRate
-    critDamage: 0.18, // Lower critDamage
+    critRate: 0.06,
+    critDamage: 0.12,
     mp: 5,
-    price: 110, // Adjusted price
+    price: 130,
+    rank: "R",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 12,
     name: "Arcane Bracelet",
     type: "Bracelet",
-    critRate: 0.08, // Lower critRate
-    critDamage: 0.2, // Lower critDamage
+    critRate: 0.08,
+    critDamage: 0.15,
     mp: 6,
-    price: 140, // Adjusted price
+    price: 150,
+    rank: "SR",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 13,
     name: "Shadow Belt",
     type: "Belt",
-    critRate: 0.09, // Lower critRate
-    critDamage: 0.22, // Lower critDamage
+    critRate: 0.08,
+    critDamage: 0.16,
     mp: 5,
-    price: 130, // Adjusted price
+    price: 140,
+    rank: "R",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 14,
     name: "Valor Pendant",
     type: "Necklace",
-    critRate: 0.1, // Lower critRate
-    critDamage: 0.23, // Lower critDamage
+    critRate: 0.1,
+    critDamage: 0.2,
     mp: 8,
-    price: 180, // Adjusted price
+    price: 200,
+    rank: "SR",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 15,
     name: "Tempest Ring",
     type: "Ring",
-    critRate: 0.09, // Lower critRate
-    critDamage: 0.2, // Lower critDamage
+    critRate: 0.09,
+    critDamage: 0.18,
     mp: 7,
-    price: 160, // Adjusted price
+    price: 160,
+    rank: "R",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 16,
     name: "Frost Bracelet",
     type: "Bracelet",
-    critRate: 0.07, // Lower critRate
-    critDamage: 0.18, // Lower critDamage
+    critRate: 0.06,
+    critDamage: 0.12,
     mp: 4,
-    price: 120, // Adjusted price
+    price: 120,
+    rank: "C",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 17,
     name: "Vortex Belt",
     type: "Belt",
-    critRate: 0.08, // Lower critRate
-    critDamage: 0.2, // Lower critDamage
+    critRate: 0.08,
+    critDamage: 0.15,
     mp: 6,
-    price: 150, // Adjusted price
+    price: 160,
+    rank: "UC",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 18,
     name: "Inferno Pendant",
     type: "Necklace",
-    critRate: 0.15, // Lower critRate
-    critDamage: 0.35, // Lower critDamage
+    critRate: 0.14,
+    critDamage: 0.35,
     mp: 10,
-    price: 280, // Adjusted price
+    price: 320,
+    rank: "UR",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 19,
     name: "Eclipse Ring",
     type: "Ring",
-    critRate: 0.1, // Lower critRate
-    critDamage: 0.22, // Lower critDamage
+    critRate: 0.09,
+    critDamage: 0.18,
     mp: 6,
-    price: 140, // Adjusted price
+    price: 150,
+    rank: "R",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 20,
     name: "Echo Bracelet",
     type: "Bracelet",
-    critRate: 0.11, // Lower critRate
-    critDamage: 0.25, // Lower critDamage
+    critRate: 0.1,
+    critDamage: 0.24,
     mp: 7,
-    price: 160, // Adjusted price
+    price: 170,
+    rank: "SR",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 21,
     name: "Thunder Belt",
     type: "Belt",
-    critRate: 0.1, // Lower critRate
-    critDamage: 0.22, // Lower critDamage
+    critRate: 0.09,
+    critDamage: 0.18,
     mp: 5,
-    price: 150, // Adjusted price
+    price: 150,
+    rank: "R",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 22,
     name: "Phoenix Pendant",
     type: "Necklace",
-    critRate: 0.16, // Lower critRate
-    critDamage: 0.38, // Lower critDamage
+    critRate: 0.15,
+    critDamage: 0.4,
     mp: 12,
-    price: 300, // Adjusted price
+    price: 360,
+    rank: "UR",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 23,
     name: "Wraith Ring",
     type: "Ring",
-    critRate: 0.11, // Lower critRate
-    critDamage: 0.28, // Lower critDamage
+    critRate: 0.1,
+    critDamage: 0.25,
     mp: 8,
-    price: 160, // Adjusted price
+    price: 180,
+    rank: "SR",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 24,
     name: "Dragonfire Bracelet",
     type: "Bracelet",
-    critRate: 0.12, // Lower critRate
-    critDamage: 0.3, // Lower critDamage
+    critRate: 0.12,
+    critDamage: 0.32,
     mp: 8,
-    price: 200, // Adjusted price
+    price: 220,
+    rank: "SSR",
   },
   {
     item_type: "accessories",
-    upgrade_level: 0,
+
     id: 25,
     name: "Fury Belt",
     type: "Belt",
-    critRate: 0.07, // Lower critRate
-    critDamage: 0.2, // Lower critDamage
+    critRate: 0.05,
+    critDamage: 0.1,
     mp: 4,
-    price: 120, // Adjusted price
+    price: 100,
+    rank: "C",
+  },
+  {
+    item_type: "accessories",
+
+    id: 26,
+    name: "Lunar Necklace",
+    type: "Necklace",
+    critRate: 0.11,
+    critDamage: 0.2,
+    mp: 9,
+    price: 240,
+    rank: "UR",
+  },
+  {
+    item_type: "accessories",
+
+    id: 27,
+    name: "Frostfire Ring",
+    type: "Ring",
+    critRate: 0.13,
+    critDamage: 0.28,
+    mp: 10,
+    price: 300,
+    rank: "SSR",
+  },
+  {
+    item_type: "accessories",
+
+    id: 28,
+    name: "Cursed Bracelet",
+    type: "Bracelet",
+    critRate: 0.12,
+    critDamage: 0.24,
+    mp: 8,
+    price: 220,
+    rank: "SR",
+  },
+  {
+    item_type: "accessories",
+
+    id: 29,
+    name: "Ninja Belt",
+    type: "Belt",
+    critRate: 0.1,
+    critDamage: 0.2,
+    mp: 6,
+    price: 180,
+    rank: "R",
+  },
+  {
+    item_type: "accessories",
+
+    id: 30,
+    name: "Eternal Pendant",
+    type: "Necklace",
+    critRate: 0.14,
+    critDamage: 0.35,
+    mp: 11,
+    price: 340,
+    rank: "UR",
+  },
+  {
+    item_type: "accessories",
+
+    id: 31,
+    name: "Vampire's Ring",
+    type: "Ring",
+    critRate: 0.09,
+    critDamage: 0.2,
+    mp: 7,
+    price: 190,
+    rank: "R",
+  },
+  {
+    item_type: "accessories",
+
+    id: 32,
+    name: "Titan's Bracelet",
+    type: "Bracelet",
+    critRate: 0.1,
+    critDamage: 0.22,
+    mp: 8,
+    price: 210,
+    rank: "SR",
+  },
+  {
+    item_type: "accessories",
+
+    id: 33,
+    name: "Phantom Belt",
+    type: "Belt",
+    critRate: 0.1,
+    critDamage: 0.15,
+    mp: 5,
+    price: 160,
+    rank: "UC",
+  },
+  {
+    item_type: "accessories",
+
+    id: 34,
+    name: "Fallen Angel Pendant",
+    type: "Necklace",
+    critRate: 0.16,
+    critDamage: 0.4,
+    mp: 12,
+    price: 400,
+    rank: "UR",
+  },
+  {
+    item_type: "accessories",
+
+    id: 35,
+    name: "Thunderstorm Ring",
+    type: "Ring",
+    critRate: 0.11,
+    critDamage: 0.26,
+    mp: 9,
+    price: 250,
+    rank: "SR",
+  },
+  {
+    item_type: "accessories",
+
+    id: 36,
+    name: "Frosted Bracelet",
+    type: "Bracelet",
+    critRate: 0.08,
+    critDamage: 0.18,
+    mp: 5,
+    price: 140,
+    rank: "C",
+  },
+  {
+    item_type: "accessories",
+
+    id: 37,
+    name: "Swift Belt",
+    type: "Belt",
+    critRate: 0.09,
+    critDamage: 0.19,
+    mp: 6,
+    price: 160,
+    rank: "R",
+  },
+  {
+    item_type: "accessories",
+
+    id: 38,
+    name: "Serpent's Pendant",
+    type: "Necklace",
+    critRate: 0.12,
+    critDamage: 0.3,
+    mp: 10,
+    price: 320,
+    rank: "UR",
+  },
+  {
+    item_type: "accessories",
+
+    id: 39,
+    name: "Mystic Shadow Ring",
+    type: "Ring",
+    critRate: 0.15,
+    critDamage: 0.33,
+    mp: 11,
+    price: 350,
+    rank: "SSR",
+  },
+  {
+    item_type: "accessories",
+
+    id: 40,
+    name: "Cloaked Bracelet",
+    type: "Bracelet",
+    critRate: 0.13,
+    critDamage: 0.29,
+    mp: 9,
+    price: 300,
+    rank: "SR",
+  },
+  {
+    item_type: "accessories",
+    id: 41,
+    name: "Celestial Chain",
+    type: "Necklace",
+    critRate: 0.17,
+    critDamage: 0.45,
+    mp: 15,
+    price: 450,
+    rank: "UR",
+  },
+  {
+    item_type: "accessories",
+    id: 42,
+    name: "Shadow Dancer's Ring",
+    type: "Ring",
+    critRate: 0.14,
+    critDamage: 0.32,
+    mp: 12,
+    price: 360,
+    rank: "SSR",
+  },
+  {
+    item_type: "accessories",
+    id: 43,
+    name: "Ancient Protector Bracelet",
+    type: "Bracelet",
+    critRate: 0.15,
+    critDamage: 0.35,
+    mp: 10,
+    price: 330,
+    rank: "SSR",
+  },
+  {
+    item_type: "accessories",
+    id: 44,
+    name: "Frostbite Belt",
+    type: "Belt",
+    critRate: 0.13,
+    critDamage: 0.28,
+    mp: 8,
+    price: 270,
+    rank: "SR",
+  },
+  {
+    item_type: "accessories",
+    id: 45,
+    name: "Windswept Pendant",
+    type: "Necklace",
+    critRate: 0.16,
+    critDamage: 0.38,
+    mp: 11,
+    price: 380,
+    rank: "UR",
+  },
+  {
+    item_type: "accessories",
+    id: 46,
+    name: "Viper Ring",
+    type: "Ring",
+    critRate: 0.1,
+    critDamage: 0.22,
+    mp: 6,
+    price: 200,
+    rank: "R",
+  },
+  {
+    item_type: "accessories",
+    id: 47,
+    name: "Titanium Bracelet",
+    type: "Bracelet",
+    critRate: 0.14,
+    critDamage: 0.34,
+    mp: 9,
+    price: 320,
+    rank: "SR",
+  },
+  {
+    item_type: "accessories",
+    id: 48,
+    name: "Cursed Chain",
+    type: "Necklace",
+    critRate: 0.18,
+    critDamage: 0.5,
+    mp: 13,
+    price: 480,
+    rank: "UR",
+  },
+  {
+    item_type: "accessories",
+    id: 49,
+    name: "Phoenix Feather Ring",
+    type: "Ring",
+    critRate: 0.12,
+    critDamage: 0.29,
+    mp: 10,
+    price: 270,
+    rank: "SR",
+  },
+  {
+    item_type: "accessories",
+    id: 50,
+    name: "Guardian's Brace",
+    type: "Bracelet",
+    critRate: 0.1,
+    critDamage: 0.2,
+    mp: 5,
+    price: 150,
+    rank: "C",
+  },
+  {
+    item_type: "accessories",
+    id: 51,
+    name: "Lunar Amulet",
+    type: "Necklace",
+    critRate: 0.12,
+    critDamage: 0.3,
+    mp: 9,
+    price: 300,
+    rank: "SR",
+  },
+  {
+    item_type: "accessories",
+    id: 52,
+    name: "Banshee Ring",
+    type: "Ring",
+    critRate: 0.1,
+    critDamage: 0.2,
+    mp: 5,
+    price: 160,
+    rank: "R",
+  },
+  {
+    item_type: "accessories",
+    id: 53,
+    name: "Elysian Bracelet",
+    type: "Bracelet",
+    critRate: 0.14,
+    critDamage: 0.35,
+    mp: 10,
+    price: 330,
+    rank: "UR",
+  },
+  {
+    item_type: "accessories",
+    id: 54,
+    name: "Stormcaller Belt",
+    type: "Belt",
+    critRate: 0.11,
+    critDamage: 0.26,
+    mp: 7,
+    price: 220,
+    rank: "SR",
+  },
+  {
+    item_type: "accessories",
+    id: 55,
+    name: "Seraphim Pendant",
+    type: "Necklace",
+    critRate: 0.15,
+    critDamage: 0.4,
+    mp: 12,
+    price: 400,
+    rank: "UR",
+  },
+  {
+    item_type: "accessories",
+    id: 56,
+    name: "Frosted Ring",
+    type: "Ring",
+    critRate: 0.09,
+    critDamage: 0.18,
+    mp: 6,
+    price: 180,
+    rank: "R",
+  },
+  {
+    item_type: "accessories",
+    id: 57,
+    name: "Shadowweave Bracelet",
+    type: "Bracelet",
+    critRate: 0.13,
+    critDamage: 0.32,
+    mp: 8,
+    price: 280,
+    rank: "SR",
+  },
+  {
+    item_type: "accessories",
+    id: 58,
+    name: "Frostfire Belt",
+    type: "Belt",
+    critRate: 0.1,
+    critDamage: 0.22,
+    mp: 5,
+    price: 170,
+    rank: "R",
+  },
+  {
+    item_type: "accessories",
+    id: 59,
+    name: "Phoenix Wing Pendant",
+    type: "Necklace",
+    critRate: 0.16,
+    critDamage: 0.38,
+    mp: 11,
+    price: 350,
+    rank: "UR",
+  },
+  {
+    item_type: "accessories",
+    id: 60,
+    name: "Siren's Call Ring",
+    type: "Ring",
+    critRate: 0.14,
+    critDamage: 0.33,
+    mp: 9,
+    price: 310,
+    rank: "SSR",
+  },
+  {
+    item_type: "accessories",
+    id: 61,
+    name: "Wraith's Embrace Bracelet",
+    type: "Bracelet",
+    critRate: 0.15,
+    critDamage: 0.36,
+    mp: 10,
+    price: 320,
+    rank: "SSR",
+  },
+  {
+    item_type: "accessories",
+    id: 62,
+    name: "Thundering Belt",
+    type: "Belt",
+    critRate: 0.1,
+    critDamage: 0.24,
+    mp: 6,
+    price: 190,
+    rank: "SR",
+  },
+  {
+    item_type: "accessories",
+    id: 63,
+    name: "Gale Pendant",
+    type: "Necklace",
+    critRate: 0.18,
+    critDamage: 0.45,
+    mp: 14,
+    price: 500,
+    rank: "UR",
+  },
+  {
+    item_type: "accessories",
+    id: 64,
+    name: "Nightshade Ring",
+    type: "Ring",
+    critRate: 0.12,
+    critDamage: 0.25,
+    mp: 7,
+    price: 230,
+    rank: "SR",
+  },
+  {
+    item_type: "accessories",
+    id: 65,
+    name: "Berserker's Bracelet",
+    type: "Bracelet",
+    critRate: 0.1,
+    critDamage: 0.2,
+    mp: 6,
+    price: 200,
+    rank: "R",
+  },
+  {
+    item_type: "accessories",
+    id: 66,
+    name: "Titan's Chain",
+    type: "Necklace",
+    critRate: 0.17,
+    critDamage: 0.42,
+    mp: 15,
+    price: 480,
+    rank: "UR",
+  },
+  {
+    item_type: "accessories",
+    id: 67,
+    name: "Shadow Ring of Speed",
+    type: "Ring",
+    critRate: 0.13,
+    critDamage: 0.29,
+    mp: 8,
+    price: 240,
+    rank: "SR",
+  },
+  {
+    item_type: "accessories",
+    id: 68,
+    name: "Blood Moon Bracelet",
+    type: "Bracelet",
+    critRate: 0.14,
+    critDamage: 0.35,
+    mp: 10,
+    price: 330,
+    rank: "UR",
+  },
+  {
+    item_type: "accessories",
+    id: 69,
+    name: "Veil of Shadows Belt",
+    type: "Belt",
+    critRate: 0.12,
+    critDamage: 0.27,
+    mp: 7,
+    price: 230,
+    rank: "SR",
+  },
+  {
+    item_type: "accessories",
+    id: 70,
+    name: "Celestial Harmony Pendant",
+    type: "Necklace",
+    critRate: 0.19,
+    critDamage: 0.5,
+    mp: 15,
+    price: 550,
+    rank: "UR",
   },
 ];
+
+const defaultPrice = {
+  UR: 2000,
+  SSR: 1500,
+  SR: 1000,
+  R: 400,
+  UC: 200,
+  C: 100,
+};
+
+const accessoriesData = accessoriesData_main.map((accessory) => ({
+  ...accessory,
+  price: accessory.price + defaultPrice[accessory.rank],
+}));
 
 export default accessoriesData;
