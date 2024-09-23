@@ -174,7 +174,7 @@ const Game = () => {
   const [upgradeStats_armor, setupgradeStatsarmor] = useState(
     upgradeStats_armor_data
   );
-  
+
   const [upgradeStats, set_upgradeStats] = useState(upgradeStats_data);
 
   const [upgradeStats_enemies, set_upgradeStats_enemies_data] = useState(
@@ -215,7 +215,6 @@ const Game = () => {
           armor={armor}
           upgradeStats_weapon={upgradeStats_weapon}
           upgradeStats_armor={upgradeStats_armor}
-        
           upgradeStats={upgradeStats}
           setCharacter={setCharacter}
           baseCharacter={baseCharacter}

@@ -176,63 +176,65 @@ const CharacterStatus = ({
     const selectedWeapon = weapon.find((item) => item.id === weaponId);
 
     if (!selectedWeapon) {
-        notification.error({ message: "Weapon not found" });
-        return;
+      notification.error({ message: "Weapon not found" });
+      return;
     }
 
     if (selectedWeapon.upgrade_level === 10) {
-        notification.error({
-            message: "Weapon Level Maximum",
-            description: `Your weapon is Level ${selectedWeapon.upgrade_level}. Can't upgrade.`,
-        });
-        return;
+      notification.error({
+        message: "Weapon Level Maximum",
+        description: `Your weapon is Level ${selectedWeapon.upgrade_level}. Can't upgrade.`,
+      });
+      return;
     }
 
     const { type, rank } = selectedWeapon;
-    const upgradeStats = upgradeStats_weapon.find((item) => item.weaponType === type && item.rank === rank) || {
-        atk: 0,
-        mp: 0,
-        critRate: 0,
-        critDamage: 0,
-        price: 0,
-        upgrade_level: 0,
+    const upgradeStats = upgradeStats_weapon.find(
+      (item) => item.weaponType === type && item.rank === rank
+    ) || {
+      atk: 0,
+      mp: 0,
+      critRate: 0,
+      critDamage: 0,
+      price: 0,
+      upgrade_level: 0,
     };
 
     const { atk, mp, critRate, critDamage, price } = upgradeStats;
 
     if (inventory.gold < price) {
-        notification.error({
-            message: "Not Enough Gold",
-            description: `You need ${price} gold to upgrade the ${type}.`,
-        });
-        return;
+      notification.error({
+        message: "Not Enough Gold",
+        description: `You need ${price} gold to upgrade the ${type}.`,
+      });
+      return;
     }
 
     const upgradedWeapon = weapon.map((item) =>
-        item.id === weaponId
-            ? {
-                  ...item,
-                  atk: item.atk + atk,
-                  mp: item.mp + mp,
-                  critRate: item.critRate + critRate,
-                  critDamage: item.critDamage + critDamage,
-                  upgrade_level: item.upgrade_level + 1,
-              }
-            : item
+      item.id === weaponId
+        ? {
+            ...item,
+            atk: item.atk + atk,
+            mp: item.mp + mp,
+            critRate: item.critRate + critRate,
+            critDamage: item.critDamage + critDamage,
+            upgrade_level: item.upgrade_level + 1,
+          }
+        : item
     );
 
     setWeaponData(upgradedWeapon); // Update the weapon data
 
     setInventoryData((prev) => ({
-        ...prev,
-        gold: prev.gold - price,
+      ...prev,
+      gold: prev.gold - price,
     }));
 
     notification.success({
-        message: "Weapon Upgraded",
-        description: `Your ${selectedWeapon.name} has been upgraded successfully!`,
+      message: "Weapon Upgraded",
+      description: `Your ${selectedWeapon.name} has been upgraded successfully!`,
     });
-};
+  };
 
   // Function to upgrade armor data by ID
   const upgradeArmor = () => {
@@ -287,14 +289,11 @@ const CharacterStatus = ({
       gold: prev.gold - upgrade.price,
     }));
 
-
     notification.success({
       message: "Armor Upgraded",
       description: `Your ${selectedArmor.name} has been upgraded successfully!`,
     });
   };
-
-  
 
   // Function to handle generic stat upgrades
   const handleUpgrade = (stat) => {
@@ -529,8 +528,6 @@ const CharacterStatus = ({
                 </Option>
               ))}
           </Select>
-
-        
         </Col>
       </Row>
     </Card>

@@ -3,6 +3,5 @@ const upgradeStats_armor_data = {
   Medium: { def: 4, hp: 15, price: 75 }, // Medium armor upgrade
   Heavy: { def: 6, hp: 20, price: 100 }, // Heavy armor upgrade
 };
-   
-   export default upgradeStats_armor_data;
-   
+
+export default upgradeStats_armor_data;

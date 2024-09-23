@@ -12,16 +12,18 @@ const Skills = ({
   inventory,
   setInventoryData,
   equipment,
-  weapon
+  weapon,
 }) => {
   // Get the type of the currently equipped weapon
   const equippedWeaponId = equipment.use_weapon;
-  const equippedWeapon = weapon.find(w => w.id === equippedWeaponId);
+  const equippedWeapon = weapon.find((w) => w.id === equippedWeaponId);
   const equippedWeaponType = equippedWeapon?.type;
 
   // Ensure skills is an array before filtering
   const filteredSkills = Array.isArray(skills)
-    ? skills.filter(skill => !skill.weaponType || skill.weaponType === equippedWeaponType)
+    ? skills.filter(
+        (skill) => !skill.weaponType || skill.weaponType === equippedWeaponType
+      )
     : [];
 
   // Organize filtered skills by type
@@ -35,8 +37,8 @@ const Skills = ({
 
   const handleUpgrade = (skillId, cost) => {
     // Find the skill by ID
-    const skill = filteredSkills.find(skill => skill.id === skillId);
-  
+    const skill = filteredSkills.find((skill) => skill.id === skillId);
+
     if (!skill) {
       notification.error({
         message: "Skill Not Found",
@@ -44,7 +46,7 @@ const Skills = ({
       });
       return;
     }
-  
+
     if (!skill.can_upgrade) {
       notification.warning({
         message: "Upgrade Not Available",
@@ -52,7 +54,7 @@ const Skills = ({
       });
       return;
     }
-  
+
     if (inventory.gold < cost) {
       notification.error({
         message: "Not Enough Gold",
@@ -60,7 +62,7 @@ const Skills = ({
       });
       return;
     }
-  
+
     if (skill.weaponType && skill.weaponType !== equippedWeaponType) {
       notification.warning({
         message: "Incompatible Weapon",
@@ -68,22 +70,22 @@ const Skills = ({
       });
       return;
     }
-  
+
     // Proceed with upgrading the skill
     upgradeSkill(skillId, cost);
   };
-  
+
   const upgradeSkill = (skillId, cost) => {
     if (inventory.gold >= cost) {
       // Deduct the gold from the inventory
-      setInventoryData(prev => ({
+      setInventoryData((prev) => ({
         ...prev,
         gold: prev.gold - cost,
       }));
-  
+
       // Update the skill stats
-      setSkills(prevSkills =>
-        prevSkills.map(skill => {
+      setSkills((prevSkills) =>
+        prevSkills.map((skill) => {
           if (skill.id === skillId) {
             return {
               ...skill,
@@ -96,10 +98,12 @@ const Skills = ({
           return skill;
         })
       );
-  
+
       notification.success({
         message: "Skill Upgraded",
-        description: `You upgraded skill ID ${skillId} to level ${filteredSkills.find(skill => skill.id === skillId).level + 1}.`,
+        description: `You upgraded skill ID ${skillId} to level ${
+          filteredSkills.find((skill) => skill.id === skillId).level + 1
+        }.`,
       });
     } else {
       notification.error({
@@ -117,12 +121,14 @@ const Skills = ({
             <List
               itemLayout="horizontal"
               dataSource={skillsByType[type]}
-              renderItem={skill => (
+              renderItem={(skill) => (
                 <List.Item
                   actions={[
                     skill.can_upgrade ? (
                       <Button
-                        onClick={() => handleUpgrade(skill.id, skill.level * 50)} // Skill upgrade cost increases with level
+                        onClick={() =>
+                          handleUpgrade(skill.id, skill.level * 50)
+                        } // Skill upgrade cost increases with level
                         style={{ marginLeft: "10px" }}
                       >
                         Upgrade (Cost: {skill.level * 50} Gold)
