@@ -62,10 +62,9 @@ const Combat = ({
   }, {});
 
   const handleFight = (enemy) => {
-    setPlayerTurn(true)
+    setPlayerTurn(true);
     setSelectedEnemy(enemy);
-    setOnCombat(true);
-    ; // Ensure player starts the turn
+    setOnCombat(true); // Ensure player starts the turn
   };
 
   const escape = () => {
@@ -95,9 +94,11 @@ const Combat = ({
 
     // Update character gold and reset enemy selection
     const rewardGold = selectedEnemy.reward;
+    const rewardExp = selectedEnemy.exp;
     setInventoryData((prev) => ({
       ...prev,
       gold: prev.gold + rewardGold,
+      exp: prev.exp + rewardExp,
     }));
     setSelectedEnemy(null);
     setPlayerTurn(true); // Allow player to select a new enemy
@@ -167,8 +168,6 @@ const Combat = ({
         });
         break;
 
-      
-   
       default:
         notification.error({
           message: "Unknown Skill Type",
@@ -192,10 +191,9 @@ const Combat = ({
       if (selectedEnemy.hp <= 0) {
         fightEnemy(selectedEnemy);
         return;
-      }else{
-        if(playerTurn==false){
-          enemyAttack()
-
+      } else {
+        if (playerTurn == false) {
+          enemyAttack();
         }
       }
     }
@@ -242,7 +240,10 @@ const Combat = ({
       return;
     }
 
-    if (select_potion.type == "hpPotion" && character.hp === clonedCharacter.hp) {
+    if (
+      select_potion.type == "hpPotion" &&
+      character.hp === clonedCharacter.hp
+    ) {
       notification.info({
         message: "Full HP",
         description: "You are already at full HP.",
@@ -250,7 +251,10 @@ const Combat = ({
       return;
     }
 
-    if (select_potion.type == "mpPotion" && character.mp === clonedCharacter.mp) {
+    if (
+      select_potion.type == "mpPotion" &&
+      character.mp === clonedCharacter.mp
+    ) {
       notification.info({
         message: "Full MP",
         description: "You are already at full MP.",

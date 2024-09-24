@@ -307,10 +307,10 @@ const CharacterStatus = ({
       return;
     }
 
-    if (inventory.gold < newValue.price) {
+    if (inventory.point < 1) {
       notification.error({
         message: "Not Enough Gold",
-        description: `You need ${newValue.price} gold to upgrade ${stat}.`,
+        description: `You need 1 Point to upgrade ${stat}.`,
       });
       return;
     }
@@ -324,7 +324,7 @@ const CharacterStatus = ({
     // Update inventory
     setInventoryData((prevInventory) => ({
       ...prevInventory,
-      gold: prevInventory.gold - newValue.price,
+      point: prevInventory.point - 1,
     }));
 
     // Optionally update character status upgrade data if needed
@@ -344,6 +344,22 @@ const CharacterStatus = ({
     setEquipmentData((prev) => ({
       ...prev,
       [`use_${type}`]: id,
+    }));
+  };
+
+  const handlePotionUpgrade = () => {
+    if (inventory.exp < 100) {
+      notification.error({
+        message: "Not Enough EXP",
+        description: `You need 100 EXP to trade Point.`,
+      });
+      return;
+    }
+
+    setInventoryData((prevInventory) => ({
+      ...prevInventory,
+      exp: prevInventory.exp - 100,
+      point: prevInventory.point + 1,
     }));
   };
 
@@ -378,7 +394,7 @@ const CharacterStatus = ({
           icon={<PlusOutlined />} // Add icon to the button
           onClick={() => handleUpgrade(record.stat)}
           disabled={
-            inventory.gold < record.price ||
+            inventory.point < 1 ||
             record.stat == "critDamage" ||
             record.stat == "critRate"
           } // Disable button based on price
@@ -441,6 +457,23 @@ const CharacterStatus = ({
         <Col span={24}>
           <Title level={5}>Upgrade Stats</Title>
           <Table columns={columns} dataSource={data} pagination={false} />
+        </Col>
+
+        <Col span={12} style={{ padding: "10px" }}>
+          <Title level={4}>EXP</Title>
+          <Paragraph>{inventory.exp}</Paragraph>
+          <Button
+            icon={<PlusOutlined />} // Add icon to the button
+            onClick={() => handlePotionUpgrade()}
+            disabled={inventory.exp < 100}
+          >
+            Point
+          </Button>
+        </Col>
+
+        <Col span={12} style={{ padding: "10px" }}>
+          <Title level={4}>Point</Title>
+          <Paragraph>{inventory.point}</Paragraph>
         </Col>
         <Col span={12} style={{ padding: "10px" }}>
           <Title level={4}>Inventory</Title>
